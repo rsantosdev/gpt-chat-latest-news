@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-chat-latest · JSON to UI</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/stream.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <nav class="demo-nav" aria-label="Demos"><a href="/" aria-current="page">JSON → UI</a><a href="/interleaved">Early output → UI</a></nav>
+    <header>
+      <div class="eyebrow"><span class="dot"></span> MICROSOFT FOUNDRY / ASP.NET CORE</div>
+      <h1>A response you can <span>interact with.</span></h1>
+      <p class="intro">GPT-chat-latest chooses a UI component and returns its data as JSON.</p>
+      <div class="tags"><span id="deployment">gpt-chat-latest</span><span>Structured Outputs</span><span>No frontend framework</span></div>
+    </header>
+
+    <form id="generate-form" class="prompt-panel">
+      <div class="prompt-heading"><label for="prompt">What should the model show?</label><span>Data is supplied in the prompt</span></div>
+      <textarea id="prompt" rows="3" maxlength="12000" required>Show our sprint progress as an interactive bar chart. Use this sample data only: planned = 40 story points, completed = 32 story points, remaining = 8 story points.</textarea>
+      <div class="prompt-footer">
+        <div class="presets" aria-label="Example prompts">
+          <button type="button" data-preset="sprint">Sprint progress</button>
+          <button type="button" data-preset="sales">Sales by region</button>
+          <button type="button" data-preset="metrics">Metric cards</button>
+        </div>
+        <button id="generate" class="primary" type="submit">Generate UI <span aria-hidden="true">↗</span></button>
+      </div>
+    </form>
+    <p id="status" role="status" aria-live="polite">Configure your Foundry credentials to get started.</p>
+
+    <div class="results">
+      <section class="panel preview-panel" aria-labelledby="preview-heading">
+        <div class="panel-heading"><div><span class="step">01</span><h2 id="preview-heading">Rendered UI</h2></div><span class="small-label">From the model's JSON</span></div>
+        <div id="preview" class="preview empty"><span class="empty-icon" aria-hidden="true">▥</span><h3>Your response becomes the interface.</h3><p>Generate a response to see a chart, metric cards, or a table.</p></div>
+      </section>
+      <section class="panel json-panel" aria-labelledby="json-heading">
+        <div class="panel-heading"><div><span class="step">02</span><h2 id="json-heading">Model content</h2></div><button id="copy-json" type="button" disabled>Copy JSON</button></div>
+        <div class="json-meta"><span id="json-status">Awaiting response</span><span id="timing"></span></div>
+        <pre id="model-json" tabindex="0" aria-label="Formatted assistant message content">The message.content returned by Foundry will appear here as formatted JSON.</pre>
+      </section>
+    </div>
+
+    <details class="wire-panel">
+      <summary>Inspect the API request and full response</summary>
+      <p>The HTTP envelope is always JSON. The validation above checks the assistant's <code>message.content</code> itself. Its transport type is a string containing serialized JSON. All JSON panels are formatted for readability.</p>
+      <div class="wire-grid">
+        <div><h3>Request body <span>credentials excluded</span></h3><pre id="request-json" tabindex="0">No request sent yet.</pre></div>
+        <div><h3>Full API response <span id="http-status"></span></h3><pre id="response-json" tabindex="0">No response received yet.</pre></div>
+      </div>
+    </details>
+    <footer>This demo supplies an <a href="/api/schema" target="_blank" rel="noopener">application-defined JSON schema</a> using <code>response_format: json_schema</code>. The browser renders approved components; it never executes model-generated code.</footer>
+  </main>
+</body>
+</html>

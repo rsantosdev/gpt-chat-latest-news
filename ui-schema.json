@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "type": { "type": "string", "enum": ["bar_chart", "metric_cards", "table", "text"] },
+    "title": { "type": "string" },
+    "summary": { "type": "string" },
+    "unit": { "type": "string" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "value": { "type": "number" }
+        },
+        "required": ["label", "value"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["type", "title", "summary", "unit", "items"],
+  "additionalProperties": false
+}

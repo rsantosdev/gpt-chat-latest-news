@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-chat-latest · Early output + UI</title>
+  <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/stream.css">
+  <script type="module" src="/interleaved.js"></script>
+</head>
+<body>
+<main>
+  <nav class="demo-nav" aria-label="Demos"><a href="/">JSON → UI</a><a href="/interleaved" aria-current="page">Early output → UI</a></nav>
+  <header>
+    <div class="eyebrow"><span class="dot"></span> MICROSOFT FOUNDRY / RESPONSES API</div>
+    <h1>Useful output. <span>Before the finish.</span></h1>
+    <p class="intro">Read the model's early findings while the rest of its response is still arriving.</p>
+    <div class="tags"><span id="deployment">gpt-chat-latest</span><span>Live service events</span><span>One model request</span></div>
+  </header>
+  <form id="stream-form" class="prompt-panel">
+    <div class="prompt-heading"><label for="prompt">Give the model a task with several steps</label><span>All example data is supplied here</span></div>
+    <textarea id="prompt" rows="4" maxlength="12000" required>Analyze this sample sales data: Americas revenue 42000 USD, cost 29000 USD; Europe revenue 31000 USD, cost 18000 USD; APAC revenue 27000 USD, cost 12000 USD. First share one useful finding as soon as it is clear. Then calculate each region's profit and margin, compare the tradeoffs, and recommend where to invest. End with a bar chart of profit by region.</textarea>
+    <div class="prompt-footer">
+      <label class="checkbox-label"><input id="include-ui" type="checkbox" checked> Combine with GenUI</label>
+      <div><button id="stop" type="button" disabled>Stop</button> <button id="generate" class="primary" type="submit">Start live response ↗</button></div>
+    </div>
+  </form>
+  <p id="status" role="status" aria-live="polite">Uses the same Foundry credentials as the JSON demo.</p>
+  <div class="stream-stats"><div><span>First visible text</span><strong id="first-text">—</strong></div><div><span>UI ready</span><strong id="ui-time">—</strong></div><div><span>Response completed</span><strong id="total-time">—</strong></div></div>
+  <p id="evidence" class="evidence">Phase labels and arrival order will be reported from actual service events.</p>
+  <div class="results">
+    <section class="panel" aria-labelledby="messages-heading">
+      <div class="panel-heading"><div><span class="step">01</span><h2 id="messages-heading">Live model messages</h2></div><span class="small-label">Service phases shown when provided</span></div>
+      <div id="messages" class="live-messages"><p class="placeholder">Model text will appear here as soon as it arrives.</p></div>
+    </section>
+    <section class="panel" aria-labelledby="ui-heading">
+      <div class="panel-heading"><div><span class="step">02</span><h2 id="ui-heading">GenUI result</h2></div><span class="small-label">render_ui tool arguments</span></div>
+      <div id="preview" class="preview empty">Waiting for a completed response with valid UI arguments.</div>
+    </section>
+  </div>
+  <details class="wire-panel"><summary>Inspect UI JSON, request, and event timeline</summary>
+    <p>The model's text is streamed naturally. Its UI is returned as a strict-schema function call so early updates can remain plain language. The application metadata event is labeled <code>demo.request</code>.</p>
+    <div class="wire-grid"><div><h3>UI arguments <button id="copy-json" type="button" disabled>Copy JSON</button></h3><pre id="ui-json">No completed UI arguments yet.</pre></div><div><h3>Responses API request</h3><pre id="request-json">No request sent yet.</pre></div></div>
+    <h3>Actual service events · timestamps measured in this browser</h3><pre id="event-log" class="event-log">No events received yet.</pre>
+  </details>
+  <footer>Token streaming alone does not prove interleaved thinking. This page reports visible messages, phase labels, and their timing. Hidden reasoning is not exposed. A separate early message is model-dependent and is never simulated.</footer>
+</main>
+</body>
+</html>
